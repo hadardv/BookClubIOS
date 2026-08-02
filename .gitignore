@@ -26,5 +26,8 @@ playground.xcworkspace
 .build/
 .swiftpm/
 
+# Xcode user data
+xcuserdata/
+
 # macOS
 .DS_Store

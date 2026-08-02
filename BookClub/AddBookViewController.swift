@@ -1,6 +1,7 @@
 //
 //  AddBookViewController.swift
 //  BookClub
+//
 
 import UIKit
 
@@ -16,8 +17,52 @@ class AddBookViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Add Recommendation"
+
+        // Make the review box easier to see.
+        reviewTextView.layer.borderWidth = 1
+        reviewTextView.layer.borderColor = UIColor.separator.cgColor
+        reviewTextView.layer.cornerRadius = 8
     }
 
+    // Called when the Save button is pressed.
     @IBAction func saveButtonTapped(_ sender: UIButton) {
+        let titleText = titleTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        let authorText = authorTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        let genreText = genreTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        let reviewText = reviewTextView.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+
+        // Rating segments are 0...4, so add 1 to get 1...5.
+        let rating = ratingSegmentedControl.selectedSegmentIndex + 1
+
+        // Title and author are required.
+        if titleText.isEmpty || authorText.isEmpty {
+            showAlert(message: "Please enter a title and an author.")
+            return
+        }
+
+        // Save the new book to Firestore.
+        FirestoreManager.shared.addBook(
+            title: titleText,
+            author: authorText,
+            genre: genreText,
+            review: reviewText,
+            rating: rating
+        ) { [weak self] success in
+            if success {
+                // Go back to the home screen.
+                self?.navigationController?.popViewController(animated: true)
+            } else {
+                self?.showAlert(message: "Could not save the book. Please try again.")
+            }
+        }
+    }
+
+    // Shows a simple alert to the user.
+    func showAlert(message: String) {
+        let alert = UIAlertController(title: "Oops",
+                                      message: message,
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
     }
 }

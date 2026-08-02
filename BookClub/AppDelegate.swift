@@ -4,12 +4,16 @@
 //
 
 import UIKit
+import FirebaseCore
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    // Called when the app finishes launching.
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        // Connect the app to Firebase.
+        FirebaseApp.configure()
         return true
     }
 
