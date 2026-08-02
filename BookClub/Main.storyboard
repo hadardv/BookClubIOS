@@ -59,21 +59,21 @@
                                                     <color key="textColor" systemColor="secondaryLabelColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="⭐⭐⭐⭐⭐" textAlignment="right" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cell-Rating">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="★★★★★" textAlignment="right" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cell-Rating">
                                                     <rect key="frame" x="310" y="30" width="63" height="20"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" systemColor="labelColor"/>
+                                                    <color key="textColor" systemColor="systemOrangeColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="Cell-Title" firstAttribute="top" secondItem="Book-Cell-Content" secondAttribute="top" constant="12" id="Cell-C1"/>
-                                                <constraint firstItem="Cell-Title" firstAttribute="leading" secondItem="Book-Cell-Content" secondAttribute="leading" constant="20" id="Cell-C2"/>
-                                                <constraint firstItem="Cell-Author" firstAttribute="top" secondItem="Cell-Title" secondAttribute="bottom" constant="8" id="Cell-C3"/>
-                                                <constraint firstItem="Cell-Author" firstAttribute="leading" secondItem="Book-Cell-Content" secondAttribute="leading" constant="20" id="Cell-C4"/>
-                                                <constraint firstItem="Book-Cell-Content" firstAttribute="bottom" secondItem="Cell-Author" secondAttribute="bottom" constant="12" id="Cell-C5"/>
+                                                <constraint firstItem="Cell-Title" firstAttribute="top" secondItem="Book-Cell-Content" secondAttribute="top" constant="18" id="Cell-C1"/>
+                                                <constraint firstItem="Cell-Title" firstAttribute="leading" secondItem="Book-Cell-Content" secondAttribute="leading" constant="32" id="Cell-C2"/>
+                                                <constraint firstItem="Cell-Author" firstAttribute="top" secondItem="Cell-Title" secondAttribute="bottom" constant="6" id="Cell-C3"/>
+                                                <constraint firstItem="Cell-Author" firstAttribute="leading" secondItem="Book-Cell-Content" secondAttribute="leading" constant="32" id="Cell-C4"/>
+                                                <constraint firstItem="Book-Cell-Content" firstAttribute="bottom" secondItem="Cell-Author" secondAttribute="bottom" constant="18" id="Cell-C5"/>
                                                 <constraint firstItem="Cell-Rating" firstAttribute="centerY" secondItem="Book-Cell-Content" secondAttribute="centerY" id="Cell-C6"/>
-                                                <constraint firstItem="Book-Cell-Content" firstAttribute="trailing" secondItem="Cell-Rating" secondAttribute="trailing" constant="20" id="Cell-C7"/>
+                                                <constraint firstItem="Book-Cell-Content" firstAttribute="trailing" secondItem="Cell-Rating" secondAttribute="trailing" constant="32" id="Cell-C7"/>
                                                 <constraint firstItem="Cell-Title" firstAttribute="trailing" secondItem="Cell-Rating" secondAttribute="leading" constant="-10" id="Cell-C8"/>
                                                 <constraint firstItem="Cell-Author" firstAttribute="trailing" secondItem="Cell-Rating" secondAttribute="leading" constant="-10" id="Cell-C9"/>
                                             </constraints>
@@ -97,7 +97,7 @@
                             <constraint firstItem="Home-Table" firstAttribute="bottom" secondItem="Home-Safe" secondAttribute="bottom" id="Home-C4"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Book Recommendations" id="Home-NavItem">
+                    <navigationItem key="navigationItem" title="Book Club" id="Home-NavItem">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Home-AddButton">
                             <connections>
                                 <segue destination="Add-VC" kind="show" identifier="ShowAddBook" id="Home-To-Add"/>
@@ -296,6 +296,9 @@
         </systemColor>
         <systemColor name="secondarySystemBackgroundColor">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemOrangeColor">
+            <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

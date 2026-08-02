@@ -16,12 +16,42 @@ class AddBookViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Add Recommendation"
+        title = "New Book"
+        navigationItem.largeTitleDisplayMode = .never
+        view.backgroundColor = .systemGroupedBackground
+        styleForm()
+    }
 
-        // Make the review box easier to see.
-        reviewTextView.layer.borderWidth = 1
-        reviewTextView.layer.borderColor = UIColor.separator.cgColor
-        reviewTextView.layer.cornerRadius = 8
+    // Softens the form so it feels more friendly.
+    func styleForm() {
+        styleTextField(titleTextField, placeholder: "Book title")
+        styleTextField(authorTextField, placeholder: "Author")
+        styleTextField(genreTextField, placeholder: "Genre (optional)")
+
+        reviewTextView.backgroundColor = .secondarySystemGroupedBackground
+        reviewTextView.textColor = .label
+        reviewTextView.font = UIFont.systemFont(ofSize: 16)
+        reviewTextView.layer.cornerRadius = 12
+        reviewTextView.clipsToBounds = true
+        reviewTextView.textContainerInset = UIEdgeInsets(top: 12, left: 10, bottom: 12, right: 10)
+
+        ratingSegmentedControl.selectedSegmentTintColor = .systemTeal
+
+        var buttonConfig = UIButton.Configuration.filled()
+        buttonConfig.title = "Save Recommendation"
+        buttonConfig.baseBackgroundColor = .systemTeal
+        buttonConfig.baseForegroundColor = .white
+        buttonConfig.cornerStyle = .large
+        saveButton.configuration = buttonConfig
+    }
+
+    // Shared look for all text fields.
+    func styleTextField(_ textField: UITextField, placeholder: String) {
+        textField.placeholder = placeholder
+        textField.borderStyle = .roundedRect
+        textField.backgroundColor = .secondarySystemGroupedBackground
+        textField.layer.cornerRadius = 10
+        textField.clipsToBounds = true
     }
 
     // Called when the Save button is pressed.
