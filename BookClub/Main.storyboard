@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Nav-VC">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="Nav-Scene">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Nav-VC" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Nav-Bar">
+                        <rect key="frame" x="0.0" y="118" width="393" height="54"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Home-VC" kind="relationship" relationship="rootViewController" id="Nav-To-Home"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Nav-First" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-700" y="0"/>
+        </scene>
+
+        <!--Home View Controller-->
+        <scene sceneID="Home-Scene">
+            <objects>
+                <viewController storyboardIdentifier="HomeViewController" id="Home-VC" customClass="HomeViewController" customModule="BookClub" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Home-View">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Home-Table">
+                                <rect key="frame" x="0.0" y="172" width="393" height="646"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="BookTableViewCell" rowHeight="80" id="Book-Cell" customClass="BookTableViewCell" customModule="BookClub" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="393" height="80"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Book-Cell" id="Book-Cell-Content">
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="80"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Book Title" textAlignment="natural" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cell-Title">
+                                                    <rect key="frame" x="20" y="12" width="280" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                                    <color key="textColor" systemColor="labelColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Author" textAlignment="natural" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cell-Author">
+                                                    <rect key="frame" x="20" y="41" width="280" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="⭐⭐⭐⭐⭐" textAlignment="right" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cell-Rating">
+                                                    <rect key="frame" x="310" y="30" width="63" height="20"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" systemColor="labelColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Cell-Title" firstAttribute="top" secondItem="Book-Cell-Content" secondAttribute="top" constant="12" id="Cell-C1"/>
+                                                <constraint firstItem="Cell-Title" firstAttribute="leading" secondItem="Book-Cell-Content" secondAttribute="leading" constant="20" id="Cell-C2"/>
+                                                <constraint firstItem="Cell-Author" firstAttribute="top" secondItem="Cell-Title" secondAttribute="bottom" constant="8" id="Cell-C3"/>
+                                                <constraint firstItem="Cell-Author" firstAttribute="leading" secondItem="Book-Cell-Content" secondAttribute="leading" constant="20" id="Cell-C4"/>
+                                                <constraint firstItem="Book-Cell-Content" firstAttribute="bottom" secondItem="Cell-Author" secondAttribute="bottom" constant="12" id="Cell-C5"/>
+                                                <constraint firstItem="Cell-Rating" firstAttribute="centerY" secondItem="Book-Cell-Content" secondAttribute="centerY" id="Cell-C6"/>
+                                                <constraint firstItem="Book-Cell-Content" firstAttribute="trailing" secondItem="Cell-Rating" secondAttribute="trailing" constant="20" id="Cell-C7"/>
+                                                <constraint firstItem="Cell-Title" firstAttribute="trailing" secondItem="Cell-Rating" secondAttribute="leading" constant="-10" id="Cell-C8"/>
+                                                <constraint firstItem="Cell-Author" firstAttribute="trailing" secondItem="Cell-Rating" secondAttribute="leading" constant="-10" id="Cell-C9"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="authorLabel" destination="Cell-Author" id="Cell-Out-Author"/>
+                                            <outlet property="ratingLabel" destination="Cell-Rating" id="Cell-Out-Rating"/>
+                                            <outlet property="titleLabel" destination="Cell-Title" id="Cell-Out-Title"/>
+                                            <segue destination="Details-VC" kind="show" identifier="ShowBookDetails" id="Home-To-Details"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Home-Safe"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Home-Table" firstAttribute="top" secondItem="Home-Safe" secondAttribute="top" id="Home-C1"/>
+                            <constraint firstItem="Home-Table" firstAttribute="leading" secondItem="Home-Safe" secondAttribute="leading" id="Home-C2"/>
+                            <constraint firstItem="Home-Table" firstAttribute="trailing" secondItem="Home-Safe" secondAttribute="trailing" id="Home-C3"/>
+                            <constraint firstItem="Home-Table" firstAttribute="bottom" secondItem="Home-Safe" secondAttribute="bottom" id="Home-C4"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Book Recommendations" id="Home-NavItem">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Home-AddButton">
+                            <connections>
+                                <segue destination="Add-VC" kind="show" identifier="ShowAddBook" id="Home-To-Add"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="Home-Table" id="Home-Out-Table"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Home-First" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="200" y="0"/>
+        </scene>
+
+        <!--Book Details View Controller-->
+        <scene sceneID="Details-Scene">
+            <objects>
+                <viewController storyboardIdentifier="BookDetailsViewController" id="Details-VC" customClass="BookDetailsViewController" customModule="BookClub" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Details-View">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Details-Stack">
+                                <rect key="frame" x="20" y="192" width="353" height="200"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" id="Details-Title">
+                                        <rect key="frame" x="0.0" y="0.0" width="353" height="24"/>
+                                        <fontDescription key="fontDescription" type="system" weight="bold" pointSize="22"/>
+                                        <color key="textColor" systemColor="labelColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Author" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" id="Details-Author">
+                                        <rect key="frame" x="0.0" y="40" width="353" height="20"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" systemColor="secondaryLabelColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Genre" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" id="Details-Genre">
+                                        <rect key="frame" x="0.0" y="76" width="353" height="20"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" systemColor="labelColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Review" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" id="Details-Review">
+                                        <rect key="frame" x="0.0" y="112" width="353" height="20"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" systemColor="labelColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rating" textAlignment="natural" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Details-Rating">
+                                        <rect key="frame" x="0.0" y="148" width="353" height="20"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" systemColor="labelColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Details-Safe"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Details-Stack" firstAttribute="top" secondItem="Details-Safe" secondAttribute="top" constant="20" id="Details-C1"/>
+                            <constraint firstItem="Details-Stack" firstAttribute="leading" secondItem="Details-Safe" secondAttribute="leading" constant="20" id="Details-C2"/>
+                            <constraint firstItem="Details-Safe" firstAttribute="trailing" secondItem="Details-Stack" secondAttribute="trailing" constant="20" id="Details-C3"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Book Details" id="Details-NavItem"/>
+                    <connections>
+                        <outlet property="authorLabel" destination="Details-Author" id="Details-Out-Author"/>
+                        <outlet property="genreLabel" destination="Details-Genre" id="Details-Out-Genre"/>
+                        <outlet property="ratingLabel" destination="Details-Rating" id="Details-Out-Rating"/>
+                        <outlet property="reviewLabel" destination="Details-Review" id="Details-Out-Review"/>
+                        <outlet property="titleLabel" destination="Details-Title" id="Details-Out-Title"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Details-First" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1100" y="-200"/>
+        </scene>
+
+        <!--Add Book View Controller-->
+        <scene sceneID="Add-Scene">
+            <objects>
+                <viewController storyboardIdentifier="AddBookViewController" id="Add-VC" customClass="AddBookViewController" customModule="BookClub" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Add-View">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Add-Scroll">
+                                <rect key="frame" x="0.0" y="172" width="393" height="646"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Add-Stack">
+                                        <rect key="frame" x="20" y="20" width="353" height="360"/>
+                                        <subviews>
+                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Book Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Add-TitleField">
+                                                <rect key="frame" x="0.0" y="0.0" width="353" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Author" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Add-AuthorField">
+                                                <rect key="frame" x="0.0" y="50" width="353" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Genre" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Add-GenreField">
+                                                <rect key="frame" x="0.0" y="100" width="353" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Review" textAlignment="natural" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Add-ReviewLabel">
+                                                <rect key="frame" x="0.0" y="150" width="353" height="20"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <color key="textColor" systemColor="secondaryLabelColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Add-ReviewView">
+                                                <rect key="frame" x="0.0" y="186" width="353" height="120"/>
+                                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                                <color key="textColor" systemColor="labelColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="120" id="Add-ReviewHeight"/>
+                                                </constraints>
+                                            </textView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rating" textAlignment="natural" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Add-RatingLabel">
+                                                <rect key="frame" x="0.0" y="322" width="353" height="20"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <color key="textColor" systemColor="secondaryLabelColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="2" translatesAutoresizingMaskIntoConstraints="NO" id="Add-RatingControl">
+                                                <rect key="frame" x="0.0" y="358" width="353" height="32"/>
+                                                <segments>
+                                                    <segment title="1"/>
+                                                    <segment title="2"/>
+                                                    <segment title="3"/>
+                                                    <segment title="4"/>
+                                                    <segment title="5"/>
+                                                </segments>
+                                            </segmentedControl>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Add-SaveButton">
+                                                <rect key="frame" x="0.0" y="405" width="353" height="44"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="44" id="Add-SaveHeight"/>
+                                                </constraints>
+                                                <state key="normal" title="Save"/>
+                                                <buttonConfiguration key="configuration" style="filled" title="Save"/>
+                                                <connections>
+                                                    <action selector="saveButtonTapped:" destination="Add-VC" eventType="touchUpInside" id="Add-Save-Action"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="Add-Stack" firstAttribute="top" secondItem="Add-Scroll" secondAttribute="top" constant="20" id="Add-SC1"/>
+                                    <constraint firstItem="Add-Stack" firstAttribute="leading" secondItem="Add-Scroll" secondAttribute="leading" constant="20" id="Add-SC2"/>
+                                    <constraint firstItem="Add-Scroll" firstAttribute="trailing" secondItem="Add-Stack" secondAttribute="trailing" constant="20" id="Add-SC3"/>
+                                    <constraint firstItem="Add-Scroll" firstAttribute="bottom" secondItem="Add-Stack" secondAttribute="bottom" constant="20" id="Add-SC4"/>
+                                    <constraint firstItem="Add-Stack" firstAttribute="width" secondItem="Add-Scroll" secondAttribute="width" constant="-40" id="Add-SC5"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Add-Safe"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Add-Scroll" firstAttribute="top" secondItem="Add-Safe" secondAttribute="top" id="Add-C1"/>
+                            <constraint firstItem="Add-Scroll" firstAttribute="leading" secondItem="Add-Safe" secondAttribute="leading" id="Add-C2"/>
+                            <constraint firstItem="Add-Scroll" firstAttribute="trailing" secondItem="Add-Safe" secondAttribute="trailing" id="Add-C3"/>
+                            <constraint firstItem="Add-Scroll" firstAttribute="bottom" secondItem="Add-Safe" secondAttribute="bottom" id="Add-C4"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Add Recommendation" id="Add-NavItem"/>
+                    <connections>
+                        <outlet property="authorTextField" destination="Add-AuthorField" id="Add-Out-Author"/>
+                        <outlet property="genreTextField" destination="Add-GenreField" id="Add-Out-Genre"/>
+                        <outlet property="ratingSegmentedControl" destination="Add-RatingControl" id="Add-Out-Rating"/>
+                        <outlet property="reviewTextView" destination="Add-ReviewView" id="Add-Out-Review"/>
+                        <outlet property="saveButton" destination="Add-SaveButton" id="Add-Out-Save"/>
+                        <outlet property="titleTextField" destination="Add-TitleField" id="Add-Out-Title"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Add-First" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1100" y="400"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="secondaryLabelColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="secondarySystemBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
