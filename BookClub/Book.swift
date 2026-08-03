@@ -13,4 +13,6 @@ struct Book {
     var genre: String
     var review: String
     var rating: Int
+    // Used to show newest books first.
+    var createdAt: Date
 }

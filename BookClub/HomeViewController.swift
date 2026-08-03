@@ -45,8 +45,28 @@ class HomeViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
 
+        // Pull down on the list to refresh books.
+        setupPullToRefresh()
+
         // Start listening for book updates from Firestore.
         startListeningForBooks()
+    }
+
+    // Adds a pull to refresh control to the table.
+    func setupPullToRefresh() {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshBooks), for: .valueChanged)
+        tableView.refreshControl = refreshControl
+    }
+
+    // Loads the books again when the user pulls to refresh.
+    @objc func refreshBooks() {
+        FirestoreManager.shared.fetchBooks { [weak self] books in
+            self?.books = books
+            self?.tableView.reloadData()
+            self?.updateEmptyState()
+            self?.tableView.refreshControl?.endRefreshing()
+        }
     }
 
     // Stops the listener when this screen is removed.

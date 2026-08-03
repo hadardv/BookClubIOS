@@ -21,33 +21,61 @@ class FirestoreManager {
     // Listens for changes in the books collection.
     // Every time data changes, the completion handler is called.
     func listenToBooks(completion: @escaping ([Book]) -> Void) -> ListenerRegistration {
-        return db.collection(collectionName).addSnapshotListener { snapshot, error in
+        return db.collection(collectionName).addSnapshotListener { [weak self] snapshot, error in
             if let error = error {
                 print("Error listening to books: \(error.localizedDescription)")
                 completion([])
                 return
             }
 
-            var books: [Book] = []
-
-            // Loop through every document in Firestore.
-            for document in snapshot?.documents ?? [] {
-                let data = document.data()
-
-                let book = Book(
-                    id: document.documentID,
-                    title: data["title"] as? String ?? "",
-                    author: data["author"] as? String ?? "",
-                    genre: data["genre"] as? String ?? "",
-                    review: data["review"] as? String ?? "",
-                    rating: data["rating"] as? Int ?? 0
-                )
-
-                books.append(book)
-            }
-
+            let books = self?.booksFromSnapshot(snapshot) ?? []
             completion(books)
         }
+    }
+
+    // Loads books one time. Used for pull to refresh.
+    func fetchBooks(completion: @escaping ([Book]) -> Void) {
+        db.collection(collectionName).getDocuments { [weak self] snapshot, error in
+            if let error = error {
+                print("Error fetching books: \(error.localizedDescription)")
+                completion([])
+                return
+            }
+
+            let books = self?.booksFromSnapshot(snapshot) ?? []
+            completion(books)
+        }
+    }
+
+    // Converts Firestore documents into Book objects and sorts newest first.
+    private func booksFromSnapshot(_ snapshot: QuerySnapshot?) -> [Book] {
+        var books: [Book] = []
+
+        for document in snapshot?.documents ?? [] {
+            let data = document.data()
+
+            // Older books may not have createdAt yet.
+            var createdAt = Date.distantPast
+            if let timestamp = data["createdAt"] as? Timestamp {
+                createdAt = timestamp.dateValue()
+            }
+
+            let book = Book(
+                id: document.documentID,
+                title: data["title"] as? String ?? "",
+                author: data["author"] as? String ?? "",
+                genre: data["genre"] as? String ?? "",
+                review: data["review"] as? String ?? "",
+                rating: data["rating"] as? Int ?? 0,
+                createdAt: createdAt
+            )
+
+            books.append(book)
+        }
+
+        // Newest books appear at the top.
+        books.sort { $0.createdAt > $1.createdAt }
+        return books
     }
 
     // Adds a new book document to Firestore.
@@ -63,7 +91,8 @@ class FirestoreManager {
             "author": author,
             "genre": genre,
             "review": review,
-            "rating": rating
+            "rating": rating,
+            "createdAt": FieldValue.serverTimestamp()
         ]
 
         db.collection(collectionName).addDocument(data: data) { error in
