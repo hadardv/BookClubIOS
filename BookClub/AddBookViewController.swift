@@ -23,6 +23,7 @@ class AddBookViewController: UIViewController {
         view.backgroundColor = .systemGroupedBackground
         styleForm()
         setupForAddOrEdit()
+        setupKeyboardDismiss()
     }
 
     // Changes the title and fills the form when editing.
@@ -76,10 +77,59 @@ class AddBookViewController: UIViewController {
         textField.backgroundColor = .secondarySystemGroupedBackground
         textField.layer.cornerRadius = 10
         textField.clipsToBounds = true
+
+        // Shows a Done button on the keyboard.
+        textField.returnKeyType = .done
+        textField.delegate = self
+    }
+
+    // Lets the user dismiss the keyboard easily.
+    func setupKeyboardDismiss() {
+        // Tap anywhere on the screen to close the keyboard.
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
+
+        // Add a Done button above the keyboard for the review box.
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(title: "Done",
+                                         style: .done,
+                                         target: self,
+                                         action: #selector(dismissKeyboard))
+        toolbar.items = [flexSpace, doneButton]
+        reviewTextView.inputAccessoryView = toolbar
+    }
+
+    // Hides the keyboard.
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+
+    // Shows a loading state on the Save button while Firestore works.
+    func setSaving(_ isSaving: Bool) {
+        saveButton.isEnabled = !isSaving
+
+        var buttonConfig = saveButton.configuration ?? UIButton.Configuration.filled()
+        buttonConfig.showsActivityIndicator = isSaving
+
+        if isSaving {
+            buttonConfig.title = "Saving..."
+        } else if bookToEdit != nil {
+            buttonConfig.title = "Save Changes"
+        } else {
+            buttonConfig.title = "Save Recommendation"
+        }
+
+        saveButton.configuration = buttonConfig
     }
 
     // Called when the Save button is pressed.
     @IBAction func saveButtonTapped(_ sender: UIButton) {
+        dismissKeyboard()
+
         let titleText = titleTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         let authorText = authorTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         let genreText = genreTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
@@ -94,6 +144,8 @@ class AddBookViewController: UIViewController {
             return
         }
 
+        setSaving(true)
+
         if let book = bookToEdit {
             // Update an existing book.
             FirestoreManager.shared.updateBook(
@@ -104,11 +156,15 @@ class AddBookViewController: UIViewController {
                 review: reviewText,
                 rating: rating
             ) { [weak self] success in
-                if success {
-                    // Go back to the home list after editing.
-                    self?.navigationController?.popToRootViewController(animated: true)
-                } else {
-                    self?.showAlert(message: "Could not update the book. Please try again.")
+                DispatchQueue.main.async {
+                    self?.setSaving(false)
+
+                    if success {
+                        // Go back to the home list after editing.
+                        self?.navigationController?.popToRootViewController(animated: true)
+                    } else {
+                        self?.showAlert(message: "Could not update the book. Please try again.")
+                    }
                 }
             }
         } else {
@@ -120,10 +176,14 @@ class AddBookViewController: UIViewController {
                 review: reviewText,
                 rating: rating
             ) { [weak self] success in
-                if success {
-                    self?.navigationController?.popViewController(animated: true)
-                } else {
-                    self?.showAlert(message: "Could not save the book. Please try again.")
+                DispatchQueue.main.async {
+                    self?.setSaving(false)
+
+                    if success {
+                        self?.navigationController?.popViewController(animated: true)
+                    } else {
+                        self?.showAlert(message: "Could not save the book. Please try again.")
+                    }
                 }
             }
         }
@@ -136,5 +196,15 @@ class AddBookViewController: UIViewController {
                                       preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
+    }
+}
+
+// MARK: - UITextFieldDelegate
+extension AddBookViewController: UITextFieldDelegate {
+
+    // Closes the keyboard when Done is pressed.
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
