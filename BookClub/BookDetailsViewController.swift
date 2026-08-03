@@ -21,8 +21,27 @@ class BookDetailsViewController: UIViewController {
         title = "Details"
         navigationItem.largeTitleDisplayMode = .never
         view.backgroundColor = .systemGroupedBackground
+
+        // Edit button in the navigation bar.
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .edit,
+            target: self,
+            action: #selector(editTapped)
+        )
+
         styleLabels()
         showBookDetails()
+    }
+
+    // Opens the add/edit screen with the current book filled in.
+    @objc func editTapped() {
+        guard let book = book else { return }
+
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let editVC = storyboard.instantiateViewController(withIdentifier: "AddBookViewController") as? AddBookViewController {
+            editVC.bookToEdit = book
+            navigationController?.pushViewController(editVC, animated: true)
+        }
     }
 
     // Makes the details text look clearer and a bit cuter.

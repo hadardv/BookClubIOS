@@ -87,4 +87,31 @@ class FirestoreManager {
             }
         }
     }
+
+    // Updates an existing book document in Firestore.
+    func updateBook(id: String,
+                    title: String,
+                    author: String,
+                    genre: String,
+                    review: String,
+                    rating: Int,
+                    completion: @escaping (Bool) -> Void) {
+
+        let data: [String: Any] = [
+            "title": title,
+            "author": author,
+            "genre": genre,
+            "review": review,
+            "rating": rating
+        ]
+
+        db.collection(collectionName).document(id).updateData(data) { error in
+            if let error = error {
+                print("Error updating book: \(error.localizedDescription)")
+                completion(false)
+            } else {
+                completion(true)
+            }
+        }
+    }
 }

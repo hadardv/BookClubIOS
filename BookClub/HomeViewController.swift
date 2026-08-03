@@ -114,19 +114,36 @@ extension HomeViewController: UITableViewDataSource {
         return cell
     }
 
-    // Allows swipe to delete.
+    // Allows swipe to delete, with a confirmation alert first.
     func tableView(_ tableView: UITableView,
                    commit editingStyle: UITableViewCell.EditingStyle,
                    forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let book = books[indexPath.row]
+            confirmDelete(book: book)
+        }
+    }
+
+    // Asks the user before deleting a book.
+    func confirmDelete(book: Book) {
+        let alert = UIAlertController(
+            title: "Delete this book?",
+            message: "\"\(book.title)\" will be removed from the list.",
+            preferredStyle: .alert
+        )
+
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+
+        alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
             FirestoreManager.shared.deleteBook(id: book.id) { success in
                 if !success {
                     print("Could not delete book.")
                 }
                 // The snapshot listener will refresh the table automatically.
             }
-        }
+        }))
+
+        present(alert, animated: true)
     }
 }
 
