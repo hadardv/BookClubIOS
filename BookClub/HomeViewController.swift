@@ -16,6 +16,16 @@ class HomeViewController: UIViewController {
     // Keeps the Firestore listener so we can stop it later.
     var listener: ListenerRegistration?
 
+    // Shows how many books there are and the average rating.
+    let summaryLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.numberOfLines = 1
+        label.textColor = .secondaryLabel
+        label.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+        return label
+    }()
+
     // Friendly message when the list is empty.
     let emptyLabel: UILabel = {
         let label = UILabel()
@@ -63,8 +73,7 @@ class HomeViewController: UIViewController {
     @objc func refreshBooks() {
         FirestoreManager.shared.fetchBooks { [weak self] books in
             self?.books = books
-            self?.tableView.reloadData()
-            self?.updateEmptyState()
+            self?.reloadBooksAnimated()
             self?.tableView.refreshControl?.endRefreshing()
         }
     }
@@ -78,9 +87,47 @@ class HomeViewController: UIViewController {
     func startListeningForBooks() {
         listener = FirestoreManager.shared.listenToBooks { [weak self] books in
             self?.books = books
-            self?.tableView.reloadData()
-            self?.updateEmptyState()
+            self?.reloadBooksAnimated()
         }
+    }
+
+    // Reloads the table with a short fade animation.
+    func reloadBooksAnimated() {
+        UIView.transition(
+            with: tableView,
+            duration: 0.25,
+            options: .transitionCrossDissolve,
+            animations: {
+                self.tableView.reloadData()
+            },
+            completion: nil
+        )
+
+        updateSummary()
+        updateEmptyState()
+    }
+
+    // Updates the summary above the list.
+    func updateSummary() {
+        if books.isEmpty {
+            tableView.tableHeaderView = nil
+            return
+        }
+
+        let count = books.count
+        let totalRating = books.reduce(0) { $0 + $1.rating }
+        let average = Double(totalRating) / Double(count)
+        let roundedAverage = Int(average.rounded())
+        let stars = starsText(for: roundedAverage)
+
+        let bookWord = count == 1 ? "book" : "books"
+        summaryLabel.text = "\(count) \(bookWord) · avg \(stars)"
+
+        // Size the header so it fits the text.
+        let headerWidth = tableView.bounds.width
+        let headerHeight: CGFloat = 44
+        summaryLabel.frame = CGRect(x: 0, y: 0, width: headerWidth, height: headerHeight)
+        tableView.tableHeaderView = summaryLabel
     }
 
     // Shows or hides the empty message.
