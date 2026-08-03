@@ -8,8 +8,15 @@ There is no login.
 
 - View all book recommendations
 - Add a new recommendation
+- Edit an existing recommendation
 - Open a book to see its details
-- Swipe to delete a recommendation
+- Share a recommendation
+- Swipe to delete with confirmation
+- Pull to refresh the list
+- Newest books appear first
+- Summary with book count and average rating
+- Loading state while saving
+- Keyboard dismiss on the add/edit form
 - Supports Light Mode and Dark Mode
 
 ## Tech
@@ -23,10 +30,10 @@ There is no login.
 ## Project Structure
 
 - `Book.swift` - book data model
-- `FirestoreManager.swift` - Firestore read, write, and delete
+- `FirestoreManager.swift` - Firestore read, write, update, and delete
 - `HomeViewController.swift` - list of books
 - `BookDetailsViewController.swift` - book details screen
-- `AddBookViewController.swift` - add recommendation screen
+- `AddBookViewController.swift` - add and edit recommendation screen
 - `BookTableViewCell.swift` - custom table view cell
 - `Main.storyboard` - app screens and navigation
 - `GoogleService-Info.plist` - Firebase configuration
@@ -57,3 +64,4 @@ Books are stored in the `books` collection with these fields:
 - genre (String)
 - review (String)
 - rating (Int)
+- createdAt (Timestamp)
