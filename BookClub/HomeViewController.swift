@@ -133,16 +133,10 @@ extension HomeViewController: UITableViewDataSource {
 
         return cell
     }
+}
 
-    // Allows swipe to delete, with a confirmation alert first.
-    func tableView(_ tableView: UITableView,
-                   commit editingStyle: UITableViewCell.EditingStyle,
-                   forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            let book = books[indexPath.row]
-            confirmDelete(book: book)
-        }
-    }
+// MARK: - Delete helpers
+extension HomeViewController {
 
     // Asks the user before deleting a book.
     func confirmDelete(book: Book) {
@@ -172,5 +166,23 @@ extension HomeViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 96
+    }
+
+    // Shows a red Delete button when the user swipes left.
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+
+        let book = books[indexPath.row]
+
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _, _, completionHandler in
+            self?.confirmDelete(book: book)
+            completionHandler(true)
+        }
+
+        deleteAction.backgroundColor = .systemRed
+
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        configuration.performsFirstActionWithFullSwipe = false
+        return configuration
     }
 }

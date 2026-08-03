@@ -22,12 +22,18 @@ class BookDetailsViewController: UIViewController {
         navigationItem.largeTitleDisplayMode = .never
         view.backgroundColor = .systemGroupedBackground
 
-        // Edit button in the navigation bar.
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
+        // Edit and Share buttons in the navigation bar.
+        let editButton = UIBarButtonItem(
             barButtonSystemItem: .edit,
             target: self,
             action: #selector(editTapped)
         )
+        let shareButton = UIBarButtonItem(
+            barButtonSystemItem: .action,
+            target: self,
+            action: #selector(shareTapped)
+        )
+        navigationItem.rightBarButtonItems = [editButton, shareButton]
 
         styleLabels()
         showBookDetails()
@@ -42,6 +48,25 @@ class BookDetailsViewController: UIViewController {
             editVC.bookToEdit = book
             navigationController?.pushViewController(editVC, animated: true)
         }
+    }
+
+    // Opens the iOS share sheet with this book recommendation.
+    @objc func shareTapped() {
+        guard let book = book else { return }
+
+        var shareText = "\(book.title) by \(book.author)"
+
+        if !book.review.isEmpty {
+            shareText += "\n\n\(book.review)"
+        }
+
+        if book.rating > 0 {
+            let stars = String(repeating: "★", count: book.rating)
+            shareText += "\n\nRating: \(stars)"
+        }
+
+        let activityVC = UIActivityViewController(activityItems: [shareText], applicationActivities: nil)
+        present(activityVC, animated: true)
     }
 
     // Makes the details text look clearer and a bit cuter.
